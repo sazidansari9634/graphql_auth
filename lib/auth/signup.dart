@@ -1,4 +1,8 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_auth/auth/auth_gql.dart';
+import 'package:graphql_auth/auth/login.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -8,135 +12,181 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final _formKey = GlobalKey<FormState>();
+  bool _isSaving = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
-        brightness: Brightness.light,
-        backgroundColor: Colors.white,
-        leading:
-        IconButton( onPressed: (){
-          Navigator.pop(context);
-        },icon:const Icon(Icons.arrow_back_ios,size: 20,color: Colors.black,)),
+        title: Text('Sign Up Page'),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                      const  Text ("Sign up", style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),),
-                       const SizedBox(height: 20,),
-                        Text("Create an Account,Its free",style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[700],
-                        ),),
-                      const  SizedBox(height: 30,)
-                      ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 60.0),
+              child: Center(
+                child: Container(
+                    width: 200,
+                    height: 150,
+                    /*decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(50.0)),*/
+                    child: Image.asset(
+                          "resources/images/welco.png",
+                          width: 200,
+                          height: 120,
+                        )),
+              ),
+            ),
+            
+              Mutation(
+                options:MutationOptions(document: gql(insertUser()),
+                fetchPolicy: FetchPolicy.noCache,
+                onCompleted: ((data) {
+                  setState(() {
+                    _isSaving = false;
+                  });
+                  print(data.toString());
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      content: 
+                      AwesomeSnackbarContent(title: "Successfully Signup!",
+                       message: "",
+                        contentType: ContentType.success)
                     ),
-                    Padding(
-                      padding:const EdgeInsets.symmetric(
-                          horizontal: 40
-                      ),
-                      child: Column(
-                        children: [
-                          makeInput(label: "Email"),
-                          makeInput(label: "Password",obsureText: true),
-                          makeInput(label: "Confirm Pasword",obsureText: true)
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: Container(
-                        padding:const EdgeInsets.only(top: 3,left: 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(40),
-                            border:const Border(
-                                bottom: BorderSide(color: Colors.black),
-                                top: BorderSide(color: Colors.black),
-                                right: BorderSide(color: Colors.black),
-                                left: BorderSide(color: Colors.black)
-                            )
-                        ),
-                        child: MaterialButton(
-                          minWidth: double.infinity,
-                          height:60,
-                          onPressed: (){},
-                          color: Colors.redAccent,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40)
-                          ),
-                          child:const Text("Sign Up",style: TextStyle(
-                            fontWeight: FontWeight.w600,fontSize: 16,
-
-                          ),),
-                        ),
-                      ),
-                    ),
-                  const  SizedBox(height: 20,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:const [
-                        Text("Already have an account? "),
-                        Text("Login",style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18
-                        ),),
-                      ],
-                    )
-                  ],
-
+                  );
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
+                })
                 ),
-              ],
+                builder: ((runMutation, result) {
+                  final _firstNameController = TextEditingController();
+                  final _lastNameController = TextEditingController();
+                  final _emailController    = TextEditingController();
+                  final _passwordController = TextEditingController();
+                
+                return Form(
+                key: _formKey,
+                child: Column(
+                children: [
+                  Padding(
+                padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
+                child: TextField(
+                  controller: _firstNameController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'FirstName',
+                      ),
+                      // validator: (value) {
+                      //   if (value!.length == 0){
+                      //     return "FirstName cannot emparty";
+                      //   }
+                      //   else {
+                      //     return null;
+                      //   }
+                      // },
+                      keyboardType: TextInputType.text,
+                ),
+                           ),
+                          Padding(
+                padding: const EdgeInsets.only(left:15.0,right: 15.0,top:15,bottom: 0),
+                child: TextField(
+                 controller: _lastNameController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'LastName',
+                      ),
+                      // validator: (value) {
+                      //   if (value!.length == 0){
+                      //     return "LastName cannot emparty";
+                      //   }
+                      //   else {
+                      //     return null;
+                      //   }
+                      // },
+                      keyboardType: TextInputType.text,
+                ),
+                          ),
+                          Padding(
+                padding: const EdgeInsets.only(left:15.0,right: 15.0,top:15,bottom: 0),
+                child: TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email',
+                      ),
+                      // validator: (value) {
+                      //   if (value!.length == 0){
+                      //     return "Email cannot emparty";
+                      //   }
+                      //   else {
+                      //     return null;
+                      //   }
+                      // },
+                      keyboardType: TextInputType.emailAddress,
+                ),
+                          ),
+                          Padding(
+                padding: const EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 15, bottom: 0),
+                child: TextField(
+                 controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Password',
+                      ),
+                      //  validator: (value) {
+                      //   if (value!.length == 4){
+                      //     return "Please 4 digits password";
+                      //   }
+                      //   else {
+                      //     return null;
+                      //   }
+                      // },
+                      keyboardType: TextInputType.text,
+                ),
+                          ),
+            Padding(
+              padding:  EdgeInsets.only(top: 15),
+              child: Container(
+                height: 50,
+                width: 250,
+                decoration: BoxDecoration(
+                    color: Colors.blue, borderRadius: BorderRadius.circular(20)),
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _isSaving = true;
+                    });
+                    if(_formKey.currentState!.validate()){
+                     runMutation({
+                      "firstName" : _firstNameController.text.trim(),
+                      "lastName"  : _lastNameController.text.trim(),
+                      "email"     : _emailController.text.trim(),
+                      "password"  : _passwordController.text.trim(),
+                     }); 
+                     ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Processing Data')),
+                  );                    }
+                   // Navigator.push(
+                     //   context, MaterialPageRoute(builder: (_) => HomePage()));
+                  },
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
-      ),
-    );
+      );
+  }),
+  )
+  ])));
   }
+  
 }
-
-Widget makeInput({label,obsureText = false}){
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(label,style:const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-          color: Colors.black87
-      ),),
-     const SizedBox(height: 5,),
-      TextField(
-        obscureText: obsureText,
-        decoration:const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 0,horizontal: 10),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.grey,
-            ),
-          ),
-          border:  OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey)
-          ),
-        ),
-      ),
-     const SizedBox(height: 30,)
-
-    ],
-  );
-}
-

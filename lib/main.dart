@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final HttpLink httpLink = HttpLink('https://cfc1-2407-5200-402-aea5-2ceb-114-bc95-2adb.in.ngrok.io/graphql',
+  final HttpLink httpLink = HttpLink('https://6df9-2407-5200-402-aea5-c3bd-27fe-2273-e943.in.ngrok.io/graphql',
   defaultHeaders: <String, String>{'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6NTUsImV4cCI6MTY3NDk5NjAyNH0.5cLNyUZDauGWbuTzQoADMwU4F7tUuWDol_kdHI3a9wM'}
   );
   final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
