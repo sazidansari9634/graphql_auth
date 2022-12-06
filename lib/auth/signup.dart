@@ -79,14 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       border: OutlineInputBorder(),
                       labelText: 'FirstName',
                       ),
-                      // validator: (value) {
-                      //   if (value!.length == 0){
-                      //     return "FirstName cannot emparty";
-                      //   }
-                      //   else {
-                      //     return null;
-                      //   }
-                      // },
+                     
                       keyboardType: TextInputType.text,
                 ),
                            ),
@@ -98,18 +91,11 @@ class _SignupScreenState extends State<SignupScreen> {
                       border: OutlineInputBorder(),
                       labelText: 'LastName',
                       ),
-                      // validator: (value) {
-                      //   if (value!.length == 0){
-                      //     return "LastName cannot emparty";
-                      //   }
-                      //   else {
-                      //     return null;
-                      //   }
-                      // },
+                     
                       keyboardType: TextInputType.text,
                 ),
                           ),
-                          Padding(
+              Padding(
                 padding: const EdgeInsets.only(left:15.0,right: 15.0,top:15,bottom: 0),
                 child: TextField(
                   controller: _emailController,
@@ -117,14 +103,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       border: OutlineInputBorder(),
                       labelText: 'Email',
                       ),
-                      // validator: (value) {
-                      //   if (value!.length == 0){
-                      //     return "Email cannot emparty";
-                      //   }
-                      //   else {
-                      //     return null;
-                      //   }
-                      // },
+                      
                       keyboardType: TextInputType.emailAddress,
                 ),
                           ),
@@ -138,14 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       border: OutlineInputBorder(),
                       labelText: 'Password',
                       ),
-                      //  validator: (value) {
-                      //   if (value!.length == 4){
-                      //     return "Please 4 digits password";
-                      //   }
-                      //   else {
-                      //     return null;
-                      //   }
-                      // },
+                     
                       keyboardType: TextInputType.text,
                 ),
                           ),
@@ -168,9 +140,13 @@ class _SignupScreenState extends State<SignupScreen> {
                       "email"     : _emailController.text.trim(),
                       "password"  : _passwordController.text.trim(),
                      }); 
+                    
+                
                      ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Processing Data')),
-                  );                    }
+                    const SnackBar(content: Text('Processing Data'),
+                    backgroundColor: Colors.indigo,
+                    ),
+                   );                    }
                    // Navigator.push(
                      //   context, MaterialPageRoute(builder: (_) => HomePage()));
                   },

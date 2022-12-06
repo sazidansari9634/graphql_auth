@@ -64,7 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     minWidth: double.infinity,
                     height:60,
                     onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>  UserScreen()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>  LoginScreen()));
                     },
                     color: Colors.indigoAccent[400],
                     shape: RoundedRectangleBorder(

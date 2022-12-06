@@ -7,3 +7,15 @@ String insertUser() {
     }                                                                                                  
   """;
   }
+
+
+  String loginUser() {
+    return """
+    mutation SignIn(\$email: String!, \$password: String!,){
+      signIn(input: {userSignInInput: {email: \$email, password: \$password}}){
+                  token
+                  
+      }
+    }                                                                                                  
+  """;
+  }
