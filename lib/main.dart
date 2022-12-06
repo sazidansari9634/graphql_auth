@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   final HttpLink httpLink = HttpLink('https://6df9-2407-5200-402-aea5-c3bd-27fe-2273-e943.in.ngrok.io/graphql',
-  defaultHeaders: <String, String>{'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6NTUsImV4cCI6MTY3NDk5NjAyNH0.5cLNyUZDauGWbuTzQoADMwU4F7tUuWDol_kdHI3a9wM'}
+    // Added the Bearer token pass
+
   );
   final ValueNotifier<GraphQLClient> client = ValueNotifier<GraphQLClient>(
     GraphQLClient(
